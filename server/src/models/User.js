@@ -46,14 +46,14 @@ const userSchema = new mongoose.Schema(
     description: {
       type: String,
       trim: true,
-      maxlength: 160,
+      maxlength: 200,
       default: "",
     },
 
     bio: {
       type: String,
       trim: true,
-      maxlength: 500,
+      maxlength: 30,
       default: "",
     },
 
