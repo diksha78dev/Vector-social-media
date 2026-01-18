@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import connectDB from "./src/config/mongodb.js";
 import authRouter from "./src/routes/auth.routes.js";
+import postRouter from "./src/routes/post.routes.js";
 
 dotenv.config();
 
@@ -30,6 +31,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authRouter);
+app.use("/api/posts", postRouter);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
