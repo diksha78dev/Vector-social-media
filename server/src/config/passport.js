@@ -11,16 +11,24 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
+        const email = profile.emails?.[0]?.value;
         let user = await User.findOne({ googleId: profile.id });
         if (!user) {
-          user = await User.create({
-            name: profile.name?.givenName || "",
-            surname: profile.name?.familyName || "",
-            email: profile.emails?.[0]?.value,
-            googleId: profile.id,
-            provider: "google",
-            isProfileComplete: false,
-          });
+          user = await User.findOne({ email });
+          if (user) {
+            user.googleId = profile.id;
+            user.provider = "google";
+            await user.save();
+          } else {
+            user = await User.create({
+              name: profile.name?.givenName || "",
+              surname: profile.name?.familyName || "",
+              email,
+              googleId: profile.id,
+              provider: "google",
+              isProfileComplete: false,
+            });
+          }
         }
         return done(null, user);
       } catch (err) {
