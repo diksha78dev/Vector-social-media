@@ -33,6 +33,10 @@ const userSchema = new mongoose.Schema(
       default: ""
     },
 
+    avatarPublicId: {
+      type: String,
+    },
+
     email: {
       type: String,
       required: true,

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Navbar from "@/components/ui/Navbar";
+import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/layouts/Sidebar";
 import Feed from "@/components/feed/Feed";
 import Themetoggle from "@/app/theme-toggle";
@@ -7,12 +7,9 @@ import HomeSidebar from "@/components/layouts/HomeSidebar";
 
 export default function home() {
   return (
-    <div>
+    <div className="overflow-y-auto h-screen">
       <Navbar/>
-      <div className="flex">
-        <Feed/>
-        <HomeSidebar/>
-      </div>
+      <Feed/>
     </div>
   );
 }

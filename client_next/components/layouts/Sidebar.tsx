@@ -63,10 +63,9 @@ export default function Sidebar(): JSX.Element {
             )}
 
             <aside className={`fixed md:static top-0 left-0 z-50 h-screen w-45 md:w-55 border-r border-black/5 shadow-lg flex flex-col justify-start items-center gap-4 px-2 py-8 font-serif text-[1.1rem] bg-white dark:bg-black transform transition-transform duration-300 ${open ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}>
-                <div className="flex w-full ml-3 mb-5 md:mb-0">
-                    <div className="h-14 md:h-18 w-14 md:w-18 border border-black/10 rounded-full bg-gray-50 dark:bg-white/20"></div>
+                <div className="flex w-full ml-5 mb-5 md:mb-0">
                     <div className="flex flex-col justify-center ml-3">
-                        <p className="font-semibold text-[1.1rem]">Hello</p>
+                        <p className="font-semibold text-[1.1rem]">Hello there</p>
                         <p className="text-[0.9rem] font-light opacity-50">{userData?.name}</p>
                     </div>
                 </div>
@@ -95,11 +94,11 @@ export default function Sidebar(): JSX.Element {
             {logoutOpen && (<LogoutWarning onClose={() => setLogoutOpen(false)} onConfirm={handleLogout} />)}
 
             {createOpen && (
-                <CreateModal onClose={() => setCreateOpen(false)} 
-                onPostCreated={(post) => {
+                <CreateModal onClose={() => setCreateOpen(false)}
+                    onPostCreated={(post) => {
                         if (!post || !post._id) return;
                         setPosts(prev => [post, ...prev]);
-                    }}/>
+                    }} />
             )}
 
 

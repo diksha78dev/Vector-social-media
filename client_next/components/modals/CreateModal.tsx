@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 type CreateModalProps = {
     onClose: () => void;
@@ -16,6 +17,8 @@ export default function CreateModal({onClose,onPostCreated}: CreateModalProps) {
     const [intent, setIntent] = useState("");
     const [content, setContent] = useState("");
     const [loading, setLoading] = useState(false);
+
+    const router = useRouter();
 
     const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL!;
 
@@ -38,7 +41,8 @@ export default function CreateModal({onClose,onPostCreated}: CreateModalProps) {
                 toast.error("Failed to post");
                 return;
             } else {
-                toast.success("Posted!")
+                toast.success("Posted!");
+                router.push('/main');
             }
             onPostCreated(data.post);
             handleClose();

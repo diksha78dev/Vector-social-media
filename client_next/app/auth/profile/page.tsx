@@ -1,6 +1,6 @@
 "use client";
 
-import PfpForm from "@/components/layouts/ProfileForm";
+import PfpForm from "@/components/forms/ProfileForm";
 
 export default function Pfp() {
     return (

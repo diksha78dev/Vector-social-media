@@ -10,10 +10,7 @@ export default function Feed() {
 
     useEffect(() => {
         const fetchPosts = async () => {
-            const res = await axios.get(
-                process.env.NEXT_PUBLIC_BACKEND_URL + "/api/posts",
-                { withCredentials: true }
-            );
+            const res = await axios.get(process.env.NEXT_PUBLIC_BACKEND_URL + "/api/posts",{ withCredentials: true });
             setPosts(res.data || []);
         };
 
@@ -21,7 +18,7 @@ export default function Feed() {
     }, []);
 
     return (
-        <div className="h-screen overflow-y-auto hide-scrollbar w-full px-5 py-15 md:pl-15 md:py-25">
+        <div className="hide-scrollbar w-full px-5 md:px-10 pt-14 md:pt-0 pb-10">
             <PostList posts={posts} />
         </div>
     );

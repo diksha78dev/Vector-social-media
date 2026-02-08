@@ -1,9 +1,11 @@
 "use client";
 
+import ProfilePage from "@/components/pages/ProfilePage";
+
 export default function Profile() {
     return (
-        <div>
-            
+        <div className="h-screen overflow-y-auto">
+            <ProfilePage/>
         </div>
     );
 }
