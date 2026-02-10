@@ -143,12 +143,6 @@ export const getMe = (req, res) => {
 };
 
 export const login = async (req, res) => {
-    if (req.cookies.token) {
-        return res.json({
-            success: false,
-            message: "Already logged in",
-        });
-    }
     const { username, password } = req.body;
     if (!username) {
         return res.json({
