@@ -20,7 +20,7 @@ interface SidebarItemProps {
     onClick?: () => void;
 }
 
-export default function Sidebar(): JSX.Element {
+export default function Sidebar() {
     const [open, setOpen] = useState<boolean>(false);
     const [createOpen, setCreateOpen] = useState<boolean>(false);
     const pathname = usePathname();
@@ -104,7 +104,7 @@ export default function Sidebar(): JSX.Element {
     );
 }
 
-function SidebarItem({ icon, label, href, active, onClick }: SidebarItemProps): JSX.Element {
+function SidebarItem({ icon, label, href, active, onClick }: SidebarItemProps) {
     if (onClick) {
         return (
             <button onClick={onClick} className={`flex gap-2 cursor-pointer transition-all duration-200 p-2 rounded-lg w-full md:pl-7 hover:bg-blue-400/20 dark:hover:bg-blue-400/20`}>
