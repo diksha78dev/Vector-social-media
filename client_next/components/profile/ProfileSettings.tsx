@@ -122,6 +122,8 @@ export default function ProfileSettings() {
           bio: false,
           description: false,
         });
+      } else {
+        toast.warn(data.message)
       }
     } catch (err) {
       console.error(err);

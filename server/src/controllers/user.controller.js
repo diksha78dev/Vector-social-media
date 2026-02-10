@@ -67,6 +67,11 @@ export const updateProfile = async (req, res) => {
         if (bio !== undefined) {
             user.bio = bio;
         }
+        if(bio.length>30) {
+            return res.json({
+                message: "Bio length exceeds word limit!"
+            })
+        }
         if (description !== undefined) {
             user.description = description;
         }
