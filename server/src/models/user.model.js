@@ -18,11 +18,11 @@ const userSchema = new mongoose.Schema(
     username: {
       type: String,
       unique: true,
+      sparse: true,
       lowercase: true,
       trim: true,
       minlength: 3,
       maxlength: 30,
-      default: null,
     },
 
     avatar: {

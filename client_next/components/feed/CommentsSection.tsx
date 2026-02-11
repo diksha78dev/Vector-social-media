@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useAppContext } from "@/context/AppContext";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function CommentsSection({ postId }: { postId: string }) {
     const { userData } = useAppContext();
@@ -11,6 +12,7 @@ export default function CommentsSection({ postId }: { postId: string }) {
     const [text, setText] = useState("");
     const [loading, setLoading] = useState(true);
     const router = useRouter();
+    const [buttonLoading, setButtonLoading] = useState(false);
 
     function timeAgo(dateString: string) {
         const now = new Date().getTime();
@@ -47,11 +49,18 @@ export default function CommentsSection({ postId }: { postId: string }) {
     }, [postId]);
 
     const handlePost = async () => {
-        const { data } = await axios.post(`${BACKEND_URL}/api/comments/${postId}`, { content: text }, { withCredentials: true });
-        setComments(prev => [...prev, data]);
-        setText("");
+        try {
+            setButtonLoading(true);
+            const { data } = await axios.post(`${BACKEND_URL}/api/comments/${postId}`, { content: text }, { withCredentials: true });
+            setComments(prev => [...prev, data]);
+            setText("");
+        } catch (error: any) {
+            toast.error(error.message)
+        } finally {
+            setButtonLoading(false);
+        }
     }
-    
+
     if (loading) return <p className="text-sm text-gray-500">Loading comments...</p>;
 
     return (
@@ -62,24 +71,24 @@ export default function CommentsSection({ postId }: { postId: string }) {
                         value={text}
                         onChange={(e) => setText(e.target.value)}
                         placeholder="Write a comment..."
-                        className="flex-1 border rounded-md px-3 h-9 md:h-10 outline-none"/>
-                    <button disabled={!text.trim()} onClick={handlePost}
+                        className="flex-1 border rounded-md px-3 h-9 md:h-10 outline-none" />
+                    <button disabled={!text.trim() || buttonLoading} onClick={handlePost}
                         className="w-20 md:w-25 h-9 md:h-10 cursor-pointer bg-blue-500 text-white rounded-md disabled:opacity-50">
                         Post
                     </button>
                 </div>
             )}
             <div className="flex flex-col gap-5">
-                {comments.length==0 && <p className="text-[0.9rem text-gray-500 py-3">No comments yet!</p>}
+                {comments.length == 0 && <p className="text-[0.9rem text-gray-500 py-3">No comments yet!</p>}
                 {comments.map((c) => (
                     <div key={c._id} className="flex gap-2">
-                        <img src={c.author.avatar || "/default-avatar.png"} className="h-7 md:h-9 w-7 md:w-9 rounded-full"/>
+                        <img src={c.author.avatar || "/default-avatar.png"} className="h-7 md:h-9 w-7 md:w-9 rounded-full" />
                         <div className="md:flex gap-3 w-full">
                             <div className="flex justify-between">
                                 <p className="text-[0.9rem] font-semibold" onClick={() => router.push(`/main/user/${comments[c].author.username}`)}>
-                                {c.author.name}
-                            </p>
-                            <p className="md:hidden text-[0.8rem] text-gray-500 ml-auto">{timeAgo(c.createdAt)}</p>
+                                    {c.author.name}
+                                </p>
+                                <p className="md:hidden text-[0.8rem] text-gray-500 ml-auto">{timeAgo(c.createdAt)}</p>
                             </div>
                             <p className="text-[0.9rem]">{c.content}</p>
                             <p className="text-[0.8rem] hidden md:flex text-gray-500 ml-auto">{timeAgo(c.createdAt)}</p>

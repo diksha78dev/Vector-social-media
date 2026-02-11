@@ -75,14 +75,14 @@ export default function ProfileForm() {
 
             <div>
                 <div className="flex items-center gap-10 my-5">
-                    <div onClick={() => fileRef.current?.click()} className="h-35 w-35 relative group flex items-center justify-center border border-black/10 rounded-full mx-auto outline-2 outline-neutral-200 bg-white/10 transition-all duration-200 hover:outline-4 cursor-pointer overflow-hidden">
+                    <div onClick={() => fileRef.current?.click()} className="h-25 md:h-35 w-25 md:w-35 relative group flex items-center justify-center border border-black/10 rounded-full mx-auto outline-2 outline-neutral-200 bg-white/10 transition-all duration-200 hover:outline-4 cursor-pointer overflow-hidden">
                         {preview ? (
                             <img src={preview} alt="pfp preview" className="h-full w-full object-cover rounded-full" />
                         ) : (
                             <Plus strokeWidth={0.7} className="h-12 w-12 opacity-50 transition-all duration-200 group-hover:scale-110" />
                         )}
                     </div>
-                    <div className="flex gap-5">
+                    <div className="flex flex-col md:flex-row gap-5">
                         <Button className="h-10 cursor-pointer bg-blue-500 text-white hover:bg-blue-600" onClick={() => fileRef.current?.click()}>
                             Upload picture
                         </Button>
