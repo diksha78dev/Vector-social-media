@@ -159,9 +159,7 @@ function SidebarItem({ icon, label, href, active, onClick}: SidebarItemProps) {
   }
 
   return (
-    <Link
-      href={href!}
-      className={`flex gap-2 cursor-pointer transition-all duration-200 p-2 rounded-lg w-full md:pl-7 ${active ? "bg-blue-500 text-white" : "hover:text-gray-600 hover:bg-blue-400/20 dark:hover:bg-blue-400/20 dark:hover:text-white/70"}`}>
+    <Link href={href!} className={`flex gap-2 cursor-pointer transition-all duration-200 p-2 rounded-lg w-full md:pl-7 ${active ? "bg-blue-500 text-white" : "hover:text-gray-600 hover:bg-blue-400/20 dark:hover:bg-blue-400/20 dark:hover:text-white/70"}`}>
       <span className={`h-4 md:h-6 ${active ? "text-white" : "text-black/50 dark:text-white/50"}`}>
         {icon}
       </span>
