@@ -1,7 +1,7 @@
 "use client";
 
 import { Search, UserPlus, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useAppContext } from "@/context/AppContext";
 import FollowButton from "../ui/FollowButton";
@@ -13,14 +13,28 @@ type SuggestedUser = {
   avatar?: string;
 };
 
+type User = {
+  _id: string;
+  name: string;
+  username?: string;
+  avatar?: string;
+};
+
 export default function ActivitySidebar() {
   const [open, setOpen] = useState(false);
   const [users, setUsers] = useState<SuggestedUser[]>([]);
   const [loading, setLoading] = useState(true);
-  const { userData } = useAppContext();
 
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState<User[]>([]);
+  const [searching, setSearching] = useState(false);
+
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  const { userData } = useAppContext();
   const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL!;
 
+  // Fetch all users
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -39,26 +53,79 @@ export default function ActivitySidebar() {
     fetchUsers();
   }, [BACKEND_URL]);
 
+  // Search logic
+  useEffect(() => {
+    const delay = setTimeout(async () => {
+      if (!query.trim()) {
+        setResults([]);
+        return;
+      }
+
+      try {
+        setSearching(true);
+        const res = await axios.get(
+          `${BACKEND_URL}/api/users/search?query=${query}`,
+          { withCredentials: true }
+        );
+        setResults(res.data.users);
+      } catch (err) {
+        console.error("Search failed:", err);
+      } finally {
+        setSearching(false);
+      }
+    }, 400);
+
+    return () => clearTimeout(delay);
+  }, [query, BACKEND_URL]);
+
+  // Close sidebar on outside click
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        wrapperRef.current &&
+        !wrapperRef.current.contains(event.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () =>
+      document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Filter suggestions
   const filteredUsers = users.filter((suggestedUser) => {
-  if (suggestedUser._id === userData?.id) return false;
-  if (userData?.following?.includes(suggestedUser._id)) return false;
-
-  return true;
-});
-
+    if (suggestedUser._id === userData?.id) return false;
+    if (userData?.following?.includes(suggestedUser._id)) return false;
+    return true;
+  });
 
   return (
     <>
-      <button onClick={() => setOpen(true)} className="fixed top-4 right-4 z-50 lg:hidden p-2 rounded-full bg-blue-500 text-white shadow-lg" aria-label="Open follow suggestions">
+      <button
+        onClick={() => setOpen(true)}
+        className="fixed top-4 right-4 z-50 lg:hidden p-2 rounded-full bg-blue-500 text-white shadow-lg"
+      >
         <UserPlus />
       </button>
 
       {open && (
-        <div className="fixed inset-0 bg-black/40 z-40 lg:hidden" onClick={() => setOpen(false)}/>
+        <div
+          className="fixed inset-0 bg-black/40 z-40 lg:hidden"
+          onClick={() => setOpen(false)}
+        />
       )}
 
-      <div className={`h-screen md:h-fit w-fit p-5 bg-white dark:bg-black fixed lg:static top-0 right-0 z-50 transform transition-transform duration-300 ${open ? "translate-x-0" : "translate-x-full"} lg:translate-x-0`}>
-        <button onClick={() => setOpen(false)} className="absolute top-4 right-4 lg:hidden" aria-label="Close">
+      <div
+        ref={wrapperRef}
+        className={`h-screen md:h-fit w-fit p-5 bg-white dark:bg-black fixed lg:static top-0 right-0 z-50 transform transition-transform duration-300 ${open ? "translate-x-0" : "translate-x-full"
+          } lg:translate-x-0`}
+      >
+        <button
+          onClick={() => setOpen(false)}
+          className="absolute top-4 right-4 lg:hidden"
+        >
           <X />
         </button>
 
@@ -66,9 +133,15 @@ export default function ActivitySidebar() {
           Search people you know
         </p>
 
-        <div className="flex border h-10 rounded-full items-center px-3 bg-black/3 mt-7 mb-5">
+        <div className="flex gap-2 border h-10 rounded-full items-center px-3 bg-black/3 mt-7 mb-5">
           <Search className="h-5" />
-          <input type="text" placeholder="Search" className="outline-0 w-full h-full px-3 bg-transparent"/>
+          <input
+            type="text"
+            placeholder="Search users"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            className="outline-0 w-full h-full bg-transparent"
+          />
         </div>
 
         <p className="text-[1.1rem] font-semibold flex items-center gap-2">
@@ -76,9 +149,47 @@ export default function ActivitySidebar() {
           Suggestions
         </p>
 
-        <div className="mt-5 flex flex-col gap-6 max-h-[60vh] hide-scrollbar overflow-y-auto pr-1">
+        <div className="mt-5 flex flex-col gap-6 w-70 min-h-[60vh] max-h-[60vh] overflow-y-auto pr-1">
           {loading ? (
             <p className="text-sm opacity-50">Loading users...</p>
+          ) : query.trim() ? (
+            searching ? (
+              <p className="text-sm opacity-50">Searching...</p>
+            ) : results.length === 0 ? (
+              <p className="text-sm opacity-50">No users found.</p>
+            ) : (
+              results
+                .filter((user) => user._id !== userData?.id)
+                .map((user) => {
+
+                  const isFollowing =
+                    userData?.following?.includes(user._id.toString()) ?? false;
+
+                  return (
+                    <div key={user._id} className="flex items-center gap-2">
+                      <div className="h-12 w-12 rounded-full overflow-hidden">
+                        <img
+                          src={user.avatar || "/default-avatar.png"}
+                          alt={user.name}
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+
+                      <div className="flex flex-col w-30">
+                        <p className="text-[0.9rem] truncate">{user.name}</p>
+                        <p className="opacity-50 text-[0.8rem] truncate">
+                          @{user.username}
+                        </p>
+                      </div>
+
+                      <FollowButton
+                        userId={user._id}
+                        isFollowing={isFollowing}
+                      />
+                    </div>
+                  );
+                })
+            )
           ) : filteredUsers.length === 0 ? (
             <p className="text-sm opacity-50">No users found.</p>
           ) : (
@@ -90,17 +201,20 @@ export default function ActivitySidebar() {
 
               return (
                 <div key={suggestedUser._id} className="flex items-center gap-2">
-                  <div className="h-12 w-12 rounded-full bg-black/5 dark:bg-white/5 overflow-hidden">
-                    <img src={suggestedUser.avatar || "/default-avatar.png"} alt={suggestedUser.name} className="h-full w-full object-cover"/>
+                  <div className="h-12 w-12 rounded-full overflow-hidden">
+                    <img
+                      src={suggestedUser.avatar || "/default-avatar.png"}
+                      alt={suggestedUser.name}
+                      className="h-full w-full object-cover"
+                    />
                   </div>
 
-                  <div className="flex flex-col w-35">
+                  <div className="flex flex-col w-30">
                     <p className="text-[0.9rem] truncate">
                       {suggestedUser.name}
                     </p>
                     <p className="opacity-50 text-[0.8rem] truncate">
-                      {suggestedUser.bio ||
-                        "No bio available"}
+                      {suggestedUser.bio || "No bio available"}
                     </p>
                   </div>
 
@@ -112,6 +226,7 @@ export default function ActivitySidebar() {
               );
             })
           )}
+
         </div>
 
         <p className="text-gray-400 text-[0.8rem] text-center mt-10">
