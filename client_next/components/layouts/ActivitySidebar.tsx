@@ -5,10 +5,12 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useAppContext } from "@/context/AppContext";
 import FollowButton from "../ui/FollowButton";
+import { useRouter } from "next/navigation";
 
 type SuggestedUser = {
   _id: string;
   name: string;
+  username: string;
   bio?: string;
   avatar?: string;
 };
@@ -34,13 +36,12 @@ export default function ActivitySidebar() {
   const { userData } = useAppContext();
   const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL!;
 
+  const router = useRouter();
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await axios.get(
-          `${BACKEND_URL}/api/users/all`,
-          { withCredentials: true }
-        );
+        const res = await axios.get(`${BACKEND_URL}/api/users/all`,{ withCredentials: true });
         setUsers(res.data.users);
       } catch (err) {
         console.error("Failed to fetch users:", err);
@@ -48,7 +49,6 @@ export default function ActivitySidebar() {
         setLoading(false);
       }
     };
-
     fetchUsers();
   }, [BACKEND_URL]);
 
@@ -60,10 +60,7 @@ export default function ActivitySidebar() {
       }
       try {
         setSearching(true);
-        const res = await axios.get(
-          `${BACKEND_URL}/api/users/search?query=${query}`,
-          { withCredentials: true }
-        );
+        const res = await axios.get(`${BACKEND_URL}/api/users/search?query=${query}`, { withCredentials: true });
         setResults(res.data.users);
       } catch (err) {
         console.error("Search failed:", err);
@@ -71,7 +68,6 @@ export default function ActivitySidebar() {
         setSearching(false);
       }
     }, 400);
-
     return () => clearTimeout(delay);
   }, [query, BACKEND_URL]);
 
@@ -84,7 +80,6 @@ export default function ActivitySidebar() {
         setOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () =>
       document.removeEventListener("mousedown", handleClickOutside);
@@ -100,6 +95,13 @@ export default function ActivitySidebar() {
     return true;
   });
 
+  const handleClick = (username?: string) => {
+    if (!username) {
+      return;
+    }
+    router.push(`/main/user/${username}`);
+  };
+
   return (
     <>
       <button onClick={() => setOpen(true)} className="fixed top-4 right-4 z-50 lg:hidden p-2 rounded-full bg-blue-500 text-white shadow-lg">
@@ -107,7 +109,7 @@ export default function ActivitySidebar() {
       </button>
 
       {open && (
-        <div className="fixed inset-0 bg-black/40 z-40 lg:hidden" onClick={() => setOpen(false)}/>
+        <div className="fixed inset-0 bg-black/40 z-40 lg:hidden" onClick={() => setOpen(false)} />
       )}
 
       <div ref={wrapperRef} className={`h-screen md:h-fit w-fit p-5 bg-white dark:bg-black fixed lg:static top-0 right-0 z-50 transform transition-transform duration-300 ${open ? "translate-x-0" : "translate-x-full"} lg:translate-x-0`}>
@@ -121,7 +123,7 @@ export default function ActivitySidebar() {
 
         <div className="flex gap-2 border h-10 rounded-full items-center px-3 bg-black/3 mt-7 mb-5">
           <Search className="h-5" />
-          <input type="text" placeholder="Search users" value={query} onChange={(e) => setQuery(e.target.value)} className="outline-0 w-full h-full bg-transparent"/>
+          <input type="text" placeholder="Search users" value={query} onChange={(e) => setQuery(e.target.value)} className="outline-0 w-full h-full bg-transparent" />
         </div>
 
         <p className="text-[1.1rem] font-semibold flex items-center gap-2">
@@ -139,39 +141,39 @@ export default function ActivitySidebar() {
               <p className="text-sm opacity-50">No users found.</p>
             ) : (
               results.filter((user) => user._id !== userData?.id).map((user) => {
-                  const isFollowing = userData?.following?.includes(user._id.toString()) ?? false;
-                  return (
-                    <div key={user._id} className="flex items-center gap-2">
-                      <div className="h-12 w-12 rounded-full overflow-hidden">
-                        <img src={user.avatar || "/default-avatar.png"} alt={user.name} className="h-full w-full object-cover"/>
-                      </div>
-                      <div className="flex flex-col w-30">
-                        <p className="text-[0.9rem] truncate">{user.name}</p>
-                        <p className="opacity-50 text-[0.8rem] truncate">
-                          @{user.username}
-                        </p>
-                      </div>
-                      <FollowButton
-                        userId={user._id}
-                        isFollowing={isFollowing}
-                      />
+                const isFollowing = userData?.following?.includes(user._id.toString()) ?? false;
+                return (
+                  <div key={user._id} className="flex items-center gap-2">
+                    <div className="h-12 w-12 rounded-full overflow-hidden">
+                      <img src={user.avatar || "/default-avatar.png"} alt={user.name} className="h-full w-full object-cover" />
                     </div>
-                  );
-                })
+                    <div className="flex flex-col w-30">
+                      <p className="text-[0.9rem] truncate">{user.name}</p>
+                      <p className="opacity-50 text-[0.8rem] truncate">
+                        @{user.username}
+                      </p>
+                    </div>
+                    <FollowButton
+                      userId={user._id}
+                      isFollowing={isFollowing}
+                    />
+                  </div>
+                );
+              })
             )
           ) : filteredUsers.length === 0 ? (
             <p className="text-sm opacity-50">No users found.</p>
           ) : (
             filteredUsers.map((suggestedUser) => {
-              const isFollowing = userData?.following?.includes( suggestedUser._id.toString() ) ?? false;
+              const isFollowing = userData?.following?.includes(suggestedUser._id.toString()) ?? false;
               return (
                 <div key={suggestedUser._id} className="flex items-center gap-2">
                   <div className="h-12 w-12 rounded-full overflow-hidden">
-                    <img src={suggestedUser.avatar || "/default-avatar.png"} alt={suggestedUser.name} className="h-full w-full object-cover"/>
+                    <img src={suggestedUser.avatar || "/default-avatar.png"} alt={suggestedUser.name} className="h-full w-full object-cover" />
                   </div>
 
                   <div className="flex flex-col w-30">
-                    <p className="text-[0.9rem] truncate">
+                    <p className="text-[0.9rem] truncate cursor-pointer hover:text-blue-600" onClick={() => handleClick(suggestedUser.username)}>
                       {suggestedUser.name}
                     </p>
                     <p className="opacity-50 text-[0.8rem] truncate">
