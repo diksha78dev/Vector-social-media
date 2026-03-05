@@ -28,11 +28,11 @@ export default function ChatListPage() {
     return (
         <div className="h-screen overflow-y-auto">
 
-            <h1 className="text-xl font-bold p-4 bg-white/15 text-white">
+            <h1 className="text-xl font-bold p-4 bg-white/15 text-white text-center md:text-left">
                 Your chats
             </h1>
 
-            <div className="flex flex-col gap-2 p-5">
+            <div className="flex flex-col p-5 gap-2">
                 {conversations.map((convo) => {
 
                     const otherUser = convo.participants.find(
@@ -43,12 +43,12 @@ export default function ChatListPage() {
                         <div
                             key={convo._id}
                             onClick={() => router.push(`/main/chat/${convo._id}`)}
-                            className="flex items-center gap-3 p-4 rounded-md border cursor-pointer bg-white/10 hover:bg-white/20 hover:shadow-lg backdrop-blur-3xl text-white transition-all duration-200"
+                            className="flex items-center gap-3 p-4 rounded-md cursor-pointer bg-white/20 hover:bg-white/30 hover:shadow-lg text-white transition-all duration-200"
                         >
 
                             <img
                                 src={otherUser?.avatar || "/default-avatar.png"}
-                                className="h-10 w-10 rounded-full object-cover"
+                                className="h-12 w-12 rounded-full object-cover"
                             />
 
                             <div>

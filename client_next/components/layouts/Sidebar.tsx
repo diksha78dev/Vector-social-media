@@ -56,7 +56,7 @@ export default function Sidebar() {
   return (
     <>
       <button onClick={() => setOpen((prev) => !prev)} className="fixed top-7.5 left-6 z-50 md:hidden p-2 rounded-lg" aria-label="Toggle menu">
-        {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6 text-white" />}
       </button>
 
       {open && (

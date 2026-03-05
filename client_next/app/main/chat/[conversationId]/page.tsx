@@ -86,7 +86,7 @@ export default function ChatPage({ params }: { params: Promise<Params> }) {
 
         <img src={otherUser?.avatar || "/default-avatar.png"} className="h-12 w-12 rounded-full object-cover border" />
 
-        <p onClick={() => router.push(`/main/user/${otherUser?.username}`)} className="ml-3 font-semibold text-white text-[1.1rem]">
+        <p onClick={() => router.push(`/main/user/${otherUser?.username}`)} className="ml-3 cursor-pointer font-semibold text-white text-[1.1rem]">
           {otherUser?.name || "User"}
         </p>
 
@@ -117,7 +117,7 @@ export default function ChatPage({ params }: { params: Promise<Params> }) {
 
       </div>
 
-      <div className="border-t px-7 pb-6 pt-4 flex gap-2">
+      <div className="border-t px-7 pb-6 pt-4 flex gap-2 backdrop-blur-3xl">
 
         <input value={text} onChange={(e) => setText(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); } }}
           className="flex-1 border px-3 py-2 rounded-md text-white" placeholder="Type a message..." />
