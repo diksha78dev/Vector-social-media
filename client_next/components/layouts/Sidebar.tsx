@@ -4,7 +4,6 @@ import { useState, useEffect, ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { Home, Search, Bell, User, Plus, Menu, X, Settings, LogOut, Send} from "lucide-react";
-import Themetoggle from "@/app/theme-toggle";
 import CreateModal from "../modals/CreateModal";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -120,7 +119,7 @@ export default function Sidebar() {
           active={pathname === "/main/settings"}
         />
 
-        <p className="flex mr-auto pl-2 md:pl-7 gap-2 mt-auto transition-all duration-300 hover:bg-black/10 dark:hover:bg-white/10 w-full h-10 rounded-lg items-center cursor-pointer dark:hover:text-white/70" onClick={() => setLogoutOpen(true)}>
+        <p className="flex mr-auto pl-2 md:pl-7 gap-2 mt-auto transition-all duration-300 hover:bg-black/10 w-full h-10 rounded-lg items-center cursor-pointer dark:hover:text-white/70" onClick={() => setLogoutOpen(true)}>
           <LogOut className="opacity-60" />{" "}
           {isLoggedIn ? "Log out" : "Log in"}
         </p>

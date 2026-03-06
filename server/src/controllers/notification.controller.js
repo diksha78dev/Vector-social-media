@@ -42,10 +42,7 @@ export const deleteMultipleNotifications = async (req, res) => {
                 message: "Invalid request"
             });
         }
-        await Notification.deleteMany({
-            _id: { $in: ids },
-            recipient: req.user._id,
-        });
+        await Notification.deleteMany({ _id: { $in: ids }, recipient: req.user._id});
         return res.json({
             success: true
         });
@@ -65,6 +62,7 @@ export const deleteAllNotifications = async (req, res) => {
             message: "Notifications deleted"
         });
     } catch (err) {
+        console.error(err)
         return res.status(500).json({
             success: false,
             message: "Server error"
