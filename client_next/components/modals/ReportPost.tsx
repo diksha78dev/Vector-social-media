@@ -54,14 +54,14 @@ export default function ReportPost({ open, onClose, onSubmit }: ReportPostProps)
 
   return createPortal(
     <div
-      className={`fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 transition-opacity duration-200 ${
+      className={`fixed inset-0 z-9999 flex items-center justify-center bg-black/40 transition-opacity duration-200 ${
         visible ? "opacity-100" : "opacity-0 pointer-events-none"
       }`}
       onClick={closeModal}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className={`w-[90%] max-w-md rounded-xl bg-white dark:bg-black border p-5 shadow-lg transform transition-all duration-200 ${
+        className={`w-[90%] max-w-md rounded-xl bg-white border p-5 shadow-lg transform transition-all duration-200 ${
           visible ? "scale-100 translate-y-0" : "scale-95 translate-y-2"
         }`}
       >
@@ -76,7 +76,7 @@ export default function ReportPost({ open, onClose, onSubmit }: ReportPostProps)
         <select
           value={reason}
           onChange={(e) => setReason(e.target.value)}
-          className="w-full mb-3 text-[0.95rem] rounded-md border px-3 py-2 bg-transparent dark:bg-black"
+          className="w-full mb-3 text-[0.95rem] rounded-md border px-3 py-2 bg-transparent"
         >
           <option value="">Select a reason</option>
           {REPORT_REASONS.map((r) => (
@@ -97,7 +97,7 @@ export default function ReportPost({ open, onClose, onSubmit }: ReportPostProps)
         <div className="flex justify-end gap-3 w-full">
           <button
             onClick={closeModal}
-            className="w-1/2 py-1.5 rounded-md border text-sm hover:bg-black/5 dark:hover:bg-white/10"
+            className="w-1/2 py-1.5 rounded-md border text-sm hover:bg-black/5"
           >
             Cancel
           </button>

@@ -176,7 +176,7 @@ export default function NotificationPanel() {
                 }}
                 className="flex gap-3 flex-1 cursor-pointer p-2 rounded-lg">
                 <img src={n.sender.avatar || "/default-avatar.png"} className="h-10 w-10 rounded-full object-cover" />
-                <div className="text-sm">
+                <div>
                   <p className="text-white">
                     <span className="font-semibold">
                       {n.sender.name}

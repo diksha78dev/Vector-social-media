@@ -44,52 +44,56 @@ export default function ProfileLayout({ user, isFollowing }: ProfileLayoutProps)
 
   return (
     <div className="px-7 py-5 h-screen overflow-y-auto">
-      <div className="flex flex-col md:flex-row items-start gap-6 mb-5 md:mb-7">
-        <img src={user.avatar || "/default-avatar.png"} className="h-28 w-28 rounded-full object-cover border mx-auto md:mx-0" />
+      <div className="mb-5 md:mb-7">
 
-        <div className="flex flex-col gap-2 w-full">
-          <div className="w-full flex justify-between items-start gap-3 md:gap-0">
-            <h1 className="text-xl md:text-2xl font-bold md:text-left text-white">
-              {user.name} {user.surname}
-            </h1>
+        <div className="flex items-start gap-6 mt-5 md:mt-0">
 
-            {isSelfProfile ? (
-              <button onClick={() => router.push("/main/settings")} className="w-32 text-sm md:text-[1rem] py-1.5 rounded-md cursor-pointer bg-blue-500 text-white hover:bg-blue-600 transition flex items-center justify-center gap-1 mx-auto md:mx-0">
-                <Edit className="h-4" />
-                Edit profile
-              </button>
-            ) : (
-              <div>
-                <FollowButton
-                  userId={user._id}
-                  isFollowing={following}
-                  onFollowChange={(next) => {
-                    setFollowing(next);
-                    setFollowersCount((prev: number) =>
-                      next ? prev + 1 : prev - 1
-                    );
-                  }}
-                />
-                <button onClick={startChat} className="bg-blue-500 h-9 w-30 ml-2 text-white text-shadow-lg rounded-md cursor-pointer">
-                  Chat
-                </button>
+          <img src={user.avatar || "/default-avatar.png"} className="h-28 w-28 rounded-full object-cover border shrink-0"/>
+
+          <div className="flex flex-col gap-2 w-full">
+
+            <div className="flex justify-between items-start flex-wrap gap-3">
+              <div className="flex flex-col">
+                <h1 className="text-xl md:text-2xl font-bold text-white">
+                {user.name} {user.surname}
+              </h1>
+              <p className="text-gray-300 text-shadow-lg">@{user.username}</p>
               </div>
-            )}
+
+              {isSelfProfile ? (
+                <button onClick={() => router.push("/main/settings")} className="w-32 text-sm md:text-[1rem] py-1.5 rounded-md cursor-pointer bg-blue-500 text-white hover:bg-blue-600 transition flex items-center justify-center gap-1">
+                  <Edit className="h-4" />
+                  Edit profile
+                </button>
+              ) : (
+                <div className="flex gap-2 w-full sm:w-fit">
+                  <div className="w-1/2 sm:w-30 [&>*]:w-full">
+                    <FollowButton
+                      userId={user._id}
+                      isFollowing={following}
+                      onFollowChange={(next) => {
+                        setFollowing(next);
+                        setFollowersCount((prev: number) =>
+                          next ? prev + 1 : prev - 1
+                        );
+                      }}
+                    />
+                  </div>
+
+                  <button onClick={startChat} className="bg-blue-500 h-9 w-1/2 sm:w-30 text-white rounded-md cursor-pointer">
+                    Chat
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
+        </div>
+        <div className="mt-5 flex flex-col gap-2">
+          <p className="text-sm text-white text-shadow-lg">{user.bio}</p>
 
-          <p className="text-gray-300 text-left">
-            @{user.username}
-          </p>
+          <p className="text-sm opacity-80 text-white text-shadow-lg">{user.description}</p>
 
-          <p className="mt-2 text-sm text-white text-shadow-lg text-left">
-            {user.bio}
-          </p>
-
-          <p className="text-sm opacity-80 text-left text-white text-shadow-lg">
-            {user.description}
-          </p>
-
-          <div className="flex gap-6 text-sm font-semibold mt-2 justify-center md:justify-start text-white">
+          <div className="flex justify-center gap-6 text-sm font-semibold mt-2 text-white">
             <span>{followersCount} Followers</span>
             <span>{followingCount} Following</span>
           </div>

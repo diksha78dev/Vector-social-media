@@ -40,16 +40,10 @@ export default function ChatListPage() {
                     );
 
                     return (
-                        <div
-                            key={convo._id}
-                            onClick={() => router.push(`/main/chat/${convo._id}`)}
-                            className="flex items-center gap-3 p-4 rounded-md cursor-pointer bg-black/10 hover:bg-black/15 hover:shadow-lg text-white transition-all duration-200"
-                        >
+                        <div key={convo._id} onClick={() => router.push(`/main/chat/${convo._id}`)}
+                            className="flex items-center gap-3 p-4 rounded-lg cursor-pointer bg-black/10 hover:bg-black/15 hover:shadow-lg text-white transition-all duration-200">
 
-                            <img
-                                src={otherUser?.avatar || "/default-avatar.png"}
-                                className="h-12 w-12 rounded-full object-cover"
-                            />
+                            <img src={otherUser?.avatar || "/default-avatar.png"} className="h-12 w-12 rounded-full object-cover"/>
 
                             <div>
                                 <p className="font-semibold">

@@ -3,7 +3,7 @@
 import { useState, useEffect, ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-import { Home, Search, Bell, User, Plus, Menu, X, Settings, LogOut, Send} from "lucide-react";
+import { Home, Search, Bell, User, Plus, Menu, X, Settings, LogOut, Send } from "lucide-react";
 import CreateModal from "../modals/CreateModal";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -51,15 +51,20 @@ export default function Sidebar() {
       }
     }
   };
+  const isMain = pathname === "/main";
 
   return (
     <>
-      <button onClick={() => setOpen((prev) => !prev)} className="fixed top-7.5 left-6 z-50 md:hidden p-2 rounded-lg" aria-label="Toggle menu">
+      <button
+        onClick={() => setOpen((prev) => !prev)}
+        className={`fixed z-50 md:hidden p-2 rounded-lg ${isMain ? "top-7.5 left-6" : "top-4 left-3"}`}
+        aria-label="Toggle menu"
+      >
         {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6 text-white" />}
       </button>
 
       {open && (
-        <div className="fixed inset-0 bg-black/40 z-40 md:hidden" onClick={() => setOpen(false)}/>
+        <div className="fixed inset-0 bg-black/40 z-40 md:hidden" onClick={() => setOpen(false)} />
       )}
 
       <aside className={`fixed md:static top-0 left-0 z-50 h-screen text-white w-50 md:w-55 border-r border-black/5 shadow-lg flex flex-col gap-5 px-1 py-8 font-serif text-[1.1rem] backdrop-blur-3xl transform transition-transform duration-300 ${open ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}>
@@ -145,7 +150,7 @@ export default function Sidebar() {
   );
 }
 
-function SidebarItem({ icon, label, href, active, onClick}: SidebarItemProps) {
+function SidebarItem({ icon, label, href, active, onClick }: SidebarItemProps) {
   if (onClick) {
     return (
       <button onClick={onClick} className="flex gap-2 cursor-pointer transition-all duration-200 p-2 rounded-lg w-full md:pl-7 hover:bg-black/10 dark:hover:bg-blue-400/20">
