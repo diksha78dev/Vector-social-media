@@ -22,7 +22,6 @@ export default function Explore() {
   const [results, setResults] = useState<User[]>([]);
   const [searching, setSearching] = useState(false);
   const [open, setOpen] = useState(false);
-
   const router = useRouter();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -52,10 +51,7 @@ export default function Explore() {
 
       try {
         setSearching(true);
-        const res = await axios.get(
-          `${BACKEND_URL}/api/users/search?query=${query}`,
-          { withCredentials: true }
-        );
+        const res = await axios.get(`${BACKEND_URL}/api/users/search?query=${query}`,{ withCredentials: true });
         setResults(res.data.users);
         setOpen(true);
       } catch (err) {
@@ -68,7 +64,10 @@ export default function Explore() {
     return () => clearTimeout(delay);
   }, [query]);
 
-  // Close dropdown when clicking outside
+  const handleClick = async(post: { _id: any; }) => {
+    router.push(`/main/post/${post._id}`)
+  }
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -170,20 +169,20 @@ export default function Explore() {
               </p>
             ) : (
               topPosts.map((post) => (
-                <div key={post._id} className="box w-[90%] md:w-[32%] border rounded-md px-5 py-4 relative cursor-pointer hover:bg-black/2">
-                  <p className="text-blue-500">
+                <div onClick={() => handleClick(post)} key={post._id} className="box w-[90%] md:w-[32%] border rounded-md px-5 py-4 relative cursor-pointer backdrop-blur-3xl text-white hover:bg-black/2">
+                  <p className="text-blue-300">
                     {post.likes.length} likes
                   </p>
-                  <p className="absolute top-4 right-4 text-[0.9rem] text-gray-600">
+                  <p className="absolute top-4 right-4 text-[0.9rem] text-blue-600">
                     #{post.intent}
                   </p>
                   <p className="my-3 line-clamp-4">
                     {post.content}
                   </p>
-                  <p className="text-[0.9rem] hover:text-blue-500" onClick={() => router.push( `/main/user/${post.author.username}`)}>
+                  <p className="text-[0.9rem] w-fit hover:text-blue-500" onClick={(e) => {e.stopPropagation(); router.push( `/main/user/${post.author.username}`)}}>
                     @{post.author.username}
                   </p>
-                  <p className="text-gray-500 text-[0.8rem]">
+                  <p className="text-gray-300 text-[0.8rem]">
                     {new Date(
                       post.createdAt
                     ).toLocaleDateString("en-GB")}

@@ -1,5 +1,6 @@
 "use client";
 
+import { ThemeProvider } from "next-themes";
 import { AppContextProvider } from "@/context/AppContext";
 
 export default function Providers({
@@ -7,5 +8,9 @@ export default function Providers({
 }: {
   children: React.ReactNode;
 }) {
-  return <AppContextProvider>{children}</AppContextProvider>;
+  return (
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <AppContextProvider>{children}</AppContextProvider>
+    </ThemeProvider>
+  );
 }

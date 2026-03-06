@@ -57,10 +57,7 @@ export default function ProfileLayout({ user, isFollowing }: ProfileLayoutProps)
 
         <div className="flex items-start gap-6 mt-5 md:mt-0">
 
-          <img
-            src={user.avatar || "/default-avatar.png"}
-            className="h-28 w-28 rounded-full object-cover border shrink-0"
-          />
+          <img src={user.avatar || "/default-avatar.png"} className="h-28 w-28 rounded-full object-cover border shrink-0"/>
 
           <div className="flex flex-col gap-2 w-full">
 
@@ -73,17 +70,14 @@ export default function ProfileLayout({ user, isFollowing }: ProfileLayoutProps)
               </div>
 
               {isSelfProfile ? (
-                <button
-                  onClick={() => router.push("/main/settings")}
-                  className="w-32 text-sm md:text-[1rem] py-1.5 rounded-md cursor-pointer bg-blue-500 text-white hover:bg-blue-600 transition flex items-center justify-center gap-1"
-                >
+                <button onClick={() => router.push("/main/settings")}
+                  className="w-32 text-sm md:text-[1rem] py-1.5 rounded-md cursor-pointer bg-blue-500 text-white hover:bg-blue-600 transition flex items-center justify-center gap-1">
                   <Edit className="h-4" />
                   Edit profile
                 </button>
               ) : (
                 <div className="flex gap-2 w-full sm:w-fit">
 
-                  {/* Prevent wrong follow state flash */}
                   {following === null ? (
                     <div className="h-9 w-30 rounded-md bg-gray-700 animate-pulse" />
                   ) : (
@@ -97,10 +91,7 @@ export default function ProfileLayout({ user, isFollowing }: ProfileLayoutProps)
                     />
                   )}
 
-                  <button
-                    onClick={startChat}
-                    className="bg-blue-500 h-9 w-1/2 sm:w-30 text-white rounded-md cursor-pointer"
-                  >
+                  <button onClick={startChat} className="bg-blue-500 h-9 w-1/2 sm:w-30 text-white rounded-md cursor-pointer">
                     Chat
                   </button>
                 </div>
@@ -130,7 +121,7 @@ export default function ProfileLayout({ user, isFollowing }: ProfileLayoutProps)
             onClick={() => setActiveTab(tab as any)}
             className={`relative pb-2 font-semibold capitalize transition cursor-pointer whitespace-nowrap ${
               activeTab === tab
-                ? "text-blue-500"
+                ? "text-blue-500 dark:text-blue-300"
                 : "text-white text-shadow-lg dark:hover:text-white"
             }`}
           >
