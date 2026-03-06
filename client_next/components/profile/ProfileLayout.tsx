@@ -70,7 +70,7 @@ export default function ProfileLayout({ user, isFollowing }: ProfileLayoutProps)
                     );
                   }}
                 />
-                <button onClick={startChat} className="bg-blue-500 h-9 w-30 ml-2 text-white rounded-md cursor-pointer">
+                <button onClick={startChat} className="bg-blue-500 h-9 w-30 ml-2 text-white text-shadow-lg rounded-md cursor-pointer">
                   Chat
                 </button>
               </div>
@@ -81,11 +81,11 @@ export default function ProfileLayout({ user, isFollowing }: ProfileLayoutProps)
             @{user.username}
           </p>
 
-          <p className="mt-2 text-sm text-white/70 dark:text-gray-300 text-left">
+          <p className="mt-2 text-sm text-white text-shadow-lg text-left">
             {user.bio}
           </p>
 
-          <p className="text-sm opacity-80 text-left text-white/70">
+          <p className="text-sm opacity-80 text-left text-white text-shadow-lg">
             {user.description}
           </p>
 
