@@ -210,7 +210,7 @@ export default function PostCard({ post, setPost }: PostCardProps) {
 
             <div className="flex justify-between text-white">
                 <div className="flex items-center justify-between w-2/3">
-                    <p className="flex gap-1 items-center cursor-pointer hover:text-blue-500" onClick={() => setShowComments(prev => !prev)}>
+                    <p className="flex gap-1 items-center cursor-pointer hover:text-blue-500">
                         <MessageCircle className="h-4.5 md:h-5 hover:text-blue-500" />
                         {post.commentsCount || 0}
                     </p>
