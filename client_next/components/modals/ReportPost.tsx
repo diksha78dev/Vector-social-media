@@ -76,7 +76,7 @@ export default function ReportPost({ open, onClose, onSubmit }: ReportPostProps)
         <select
           value={reason}
           onChange={(e) => setReason(e.target.value)}
-          className="w-full mb-3 text-[0.95rem] rounded-md border px-3 py-2 bg-transparent"
+          className="w-full mb-3 text-[0.95rem] rounded-md border px-3 py-2 bg-transparent dark:bg-blue-950"
         >
           <option value="">Select a reason</option>
           {REPORT_REASONS.map((r) => (

@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useAppContext } from "@/context/AppContext";
-import { Send } from "lucide-react";
+import { ArrowRight, ChartArea, MessageSquare, Send } from "lucide-react";
+import MessagesSidebar from "@/components/layouts/MessagesSidebar";
 
 export default function ChatListPage() {
 
@@ -26,7 +27,8 @@ export default function ChatListPage() {
     }, [userData]);
 
     return (
-        <div className="h-screen overflow-y-auto">
+        <div className="flex w-full h-screen">
+            <div className="flex-1 h-screen overflow-y-auto hide-scrollbar">
 
             <h1 className="text-xl font-bold p-4 bg-white/15 text-white text-center md:text-left">
                 Your chats
@@ -54,12 +56,14 @@ export default function ChatListPage() {
                                     @{otherUser?.username}
                                 </p>
                             </div>
-                            <Send className="ml-auto opacity-70"/>
+                            <ArrowRight className="ml-auto opacity-70"/>
                         </div>
                     );
                 })}
             </div>
 
+        </div>
+        <MessagesSidebar/>
         </div>
     );
 }
