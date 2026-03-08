@@ -63,7 +63,7 @@ export default function CommentsSection({ postId }: { postId: string }) {
             await axios.delete(`${BACKEND_URL}/api/comments/${selectedComment._id}`, { withCredentials: true });
             setComments(prev => prev.filter(c => c._id !== selectedComment._id));
             toast.success("Comment deleted");
-        } catch (error : any) {
+        } catch (error: any) {
             toast.error(error.message);
         } finally {
             setShowDeleteModal(false);
@@ -87,68 +87,57 @@ export default function CommentsSection({ postId }: { postId: string }) {
             )}
 
             <div className="flex flex-col">
-  {comments.length === 0 && (
-    <p className="text-[0.9rem] text-gray-500 py-3">
-      No comments yet!
-    </p>
-  )}
+                {comments.length === 0 && (
+                    <p className="text-[0.9rem] text-gray-500 py-3">
+                        No comments yet!
+                    </p>
+                )}
 
-  {comments.map((c) => {
-    const isOwner =
-      String(c.author?._id) === String(userData?.id);
+                {comments.map((c) => {
+                    const isOwner =
+                        String(c.author?._id) === String(userData?.id);
 
-    return (
-      <div
-        key={c._id}
-        className="flex gap-3 py-3 px-2 rounded-lg"
-      >
-        {/* Avatar */}
-        <img
-          src={c.author?.avatar || "/default-avatar.png"}
-          className="h-8 w-8 md:h-9 md:w-9 object-cover rounded-full flex-shrink-0"
-        />
+                    return (
+                        <div key={c._id} className="flex gap-3 py-3 px-2 rounded-lg">
+                            <img src={c.author?.avatar || "/default-avatar.png"} className="h-8 w-8 md:h-9 md:w-9 object-cover rounded-full shrink-0"/>
 
-        {/* Comment content */}
-        <div className="flex flex-col w-full">
+                            <div className="flex flex-col w-full">
 
-          {/* Top row (name + delete) */}
-          <div className="flex items-center gap-2">
-            <p
-              className="text-[0.9rem] font-semibold text-white cursor-pointer"
-              onClick={() =>
-                router.push(`/main/user/${c.author?.username}`)
-              }
-            >
-              {c.author?.name}
-            </p>
+                                <div className="flex items-center gap-2">
+                                    <p
+                                        className="text-[0.9rem] font-semibold text-white cursor-pointer"
+                                        onClick={() =>
+                                            router.push(`/main/user/${c.author?.username}`)
+                                        }
+                                    >
+                                        {c.author?.name}
+                                    </p>
 
-            {isOwner && (
-              <Trash2
-                size={16}
-                className="text-white/70 cursor-pointer ml-auto"
-                onClick={() => {
-                  setSelectedComment(c);
-                  setShowDeleteModal(true);
-                }}
-              />
-            )}
-          </div>
+                                    {isOwner && (
+                                        <Trash2
+                                            size={16}
+                                            className="text-white/70 cursor-pointer ml-auto"
+                                            onClick={() => {
+                                                setSelectedComment(c);
+                                                setShowDeleteModal(true);
+                                            }}
+                                        />
+                                    )}
+                                </div>
 
-          {/* Comment text */}
-          <p className="text-[0.9rem] text-gray-300 break-words">
-            {c?.content}
-          </p>
+                                <p className="text-[0.9rem] text-gray-300 wrap-break-word">
+                                    {c?.content}
+                                </p>
 
-          {/* Timestamp */}
-          <p className="text-[0.75rem] text-gray-500 mt-1">
-            {timeAgo(c.createdAt)}
-          </p>
+                                <p className="text-[0.75rem] text-gray-500 mt-1">
+                                    {timeAgo(c.createdAt)}
+                                </p>
 
-        </div>
-      </div>
-    );
-  })}
-</div>
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
 
             <DeleteWarning
                 open={showDeleteModal}
