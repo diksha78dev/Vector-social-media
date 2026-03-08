@@ -40,12 +40,11 @@ export default function ConfirmModal({
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className={`w-[90%] max-w-md rounded-xl bg-white p-5 shadow-lg transform transition-all duration-200 ${
+        className={`w-[90%] max-w-md rounded-xl bg-white dark:bg-blue-950 p-5 shadow-lg transform transition-all duration-200 ${
           open
             ? "scale-100 translate-y-0 opacity-100"
             : "scale-95 translate-y-2 opacity-0"
-        }`}
-      >
+        }`}>
         <div className="flex justify-between items-center mb-4">
           <p className="text-[1.2rem] font-semibold">{title}</p>
           <button onClick={onClose} className="cursor-pointer">
@@ -58,22 +57,16 @@ export default function ConfirmModal({
         </p>
 
         {content && (
-          <div className="border rounded-md p-3 text-sm max-h-30 overflow-y-auto bg-gray-50 my-5">
+          <div className="border rounded-md p-3 text-sm max-h-30 overflow-y-auto bg-gray-50 dark:bg-blue-900 my-5">
             {content}
           </div>
         )}
 
         <div className="flex justify-end gap-3 w-full">
-          <button
-            onClick={onClose}
-            className="w-[50%] py-1.5 rounded-md border cursor-pointer hover:bg-black/5"
-          >
+          <button onClick={onClose} className="w-[50%] py-1.5 rounded-md border cursor-pointer hover:bg-black/5">
             Cancel
           </button>
-          <button
-            onClick={onConfirm}
-            className="w-[50%] cursor-pointer py-1.5 rounded-md bg-blue-500 text-white hover:bg-blue-600"
-          >
+          <button onClick={onConfirm} className="w-[50%] cursor-pointer py-1.5 rounded-md bg-blue-500 text-white hover:bg-blue-600">
             {confirmText}
           </button>
         </div>
