@@ -208,19 +208,19 @@ export default function PostCard({ post, setPost }: PostCardProps) {
                 {post.content}
             </p>
 
-            <div className="flex justify-between text-white">
-                <div className="flex items-center justify-between w-2/3">
-                    <p className="flex gap-1 items-center cursor-pointer hover:text-blue-500">
+            <div className="flex justify-between text-white border-t border-white/20 dark:border-white/10 pt-3">
+                <div className="flex items-center justify-between w-2/3 text-gray-200 dark:text-gray-300 text-sm">
+                    <p className="flex gap-1 items-center cursor-pointer hover:text-blue-500 w-[20%] justify-center">
                         <MessageCircle className="h-4.5 md:h-5 hover:text-blue-500" />
-                        {post.commentsCount || 0}
+                        {post.commentsCount || 0} {post.commentsCount==1 ? 'Comment' : 'Comments'}
                     </p>
 
-                    <p className="flex gap-1 items-center">
-                        <Forward onClick={handleShare} className="h-4.5 md:h-5 hover:text-blue-500" />0
+                    <p onClick={handleShare} className="flex gap-1 items-center cursor-pointer w-[20%] justify-center hover:text-blue-500">
+                        <Forward className="h-4.5 md:h-5" />0 Shares
                     </p>
-                    <p className="flex gap-1 items-center" onClick={(e) => { e.stopPropagation(); handleLike() }}>
+                    <p onClick={(e) => { e.stopPropagation(); handleLike() }} className="flex gap-1 items-center w-[20%] justify-center cursor-pointer hover:text-blue-500">
                         <Heart className={`h-4.5 md:h-5 cursor-pointer transition-transform duration-300 hover:text-blue-500 ${isLiked ? "text-blue-500" : ""} ${likeAnimating ? "scale-135" : "scale-100"}`} fill={isLiked ? "currentColor" : "none"} />
-                        {post.likes.length}
+                        {post.likes.length} {post.likes.length==1 ? 'Like' : 'Likes'}
                     </p>
                 </div>
                 <div>
