@@ -1,4 +1,4 @@
-# ResumeForge — SaaS Resume Builder
+# Vector — SaaS Resume Builder
 
 A modern, full-featured resume builder built with **Next.js 15 (App Router)**, **TypeScript**, **TailwindCSS**, and **React**.
 
