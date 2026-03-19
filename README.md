@@ -4,13 +4,13 @@ A modern, full-featured resume builder built with **Next.js 15 (App Router)**, *
 
 ## ✨ Features
 
-- **Live Preview** — Resume updates in real time as you type
-- **ATS-Optimized Template** — Clean, parseable resume layout
-- **6 Resume Sections** — Personal info, Education, Experience, Projects, Skills, Achievements
-- **Collapsible Sections** — Clean, organized form editor
-- **Persistent Storage** — Data saved to localStorage automatically
-- **Responsive Design** — Mobile-friendly split-screen layout
-- **Modern SaaS UI** — Linear/Stripe-inspired aesthetic
+- **Live Preview** - Resume updates in real time as you type
+- **ATS-Optimized Template** - Clean, parseable resume layout
+- **6 Resume Sections** - Personal info, Education, Experience, Projects, Skills, Achievements
+- **Collapsible Sections** - Clean, organized form editor
+- **Persistent Storage** - Data saved to localStorage automatically
+- **Responsive Design** - Mobile-friendly split-screen layout
+- **Modern SaaS UI** - Linear/Stripe-inspired aesthetic
 
 ## 📁 Project Structure
 
