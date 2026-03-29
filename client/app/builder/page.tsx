@@ -40,19 +40,13 @@ export default function Builder() {
       <div className="flex-1 flex flex-col">
         <div className="bg-white border-b border-gray-200 px-6 py-2">
           <div className="max-w-screen-2xl mx-auto flex items-center justify-between">
-            <Link
-              href="/"
-              className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
-            >
+            <Link href="/" className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors">
               <ArrowLeft className="w-5 h-5" />
               <span className="hidden sm:inline">Back to Home</span>
             </Link>
 
             <div className="flex items-center gap-3">
-              <button
-                onClick={() => setShowMobilePreview(!showMobilePreview)}
-                className="lg:hidden flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-blue-500 transition-colors"
-              >
+              <button onClick={() => setShowMobilePreview(!showMobilePreview)} className="lg:hidden flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-blue-500 transition-colors">
                 {showMobilePreview ? (
                   <EyeOff className="w-4 h-4" />
                 ) : (
@@ -64,10 +58,7 @@ export default function Builder() {
               </button>
 
               {isEmpty && (
-                <button
-                  onClick={handleLoadDemo}
-                  className="hidden md:flex btn-secondary items-center gap-2 px-4 py-2 text-blue-500 hover:text-blue-600 transition-colors"
-                >
+                <button onClick={handleLoadDemo} className="hidden md:flex btn-secondary items-center gap-2 px-4 py-2 text-blue-500 hover:text-blue-600 transition-colors">
                   <Sparkles className="w-4 h-4" />
                   Load Demo
                 </button>
@@ -79,10 +70,7 @@ export default function Builder() {
                   <span className="hidden md:inline">Clear Resume</span>
                 </button>}
 
-              <Link
-                href="/download"
-                className="flex items-center gap-2 px-4 sm:px-6 py-1.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-              >
+              <Link href="/download" className="flex items-center gap-2 px-4 sm:px-6 py-1.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
                 <Download className="w-4 h-4" />
                 <span className="hidden sm:inline">Download</span>
               </Link>
@@ -90,13 +78,9 @@ export default function Builder() {
           </div>
         </div>
 
-        {/* Split Screen */}
         <div className="flex-1 grid lg:grid-cols-2 gap-0 overflow-hidden">
-          {/* Left Side - Form */}
           <div
-            className={`bg-gray-50 overflow-auto ${showMobilePreview ? "hidden lg:block" : ""
-              }`}
-          >
+            className={`bg-gray-50 overflow-auto ${showMobilePreview ? "hidden lg:block" : ""}`}>
             <div className="max-w-3xl mx-auto px-6 py-8">
               <div className="mb-8">
                 <h1 className="text-3xl font-bold text-gray-900 mb-2">
@@ -112,11 +96,8 @@ export default function Builder() {
             </div>
           </div>
 
-          {/* Right Side - Preview */}
           <div
-            className={`bg-blue-500 border-l border-gray-300 overflow-auto sticky top-0 ${showMobilePreview ? "" : "hidden lg:block"
-              }`}
-          >
+            className={`bg-blue-500 border-l border-gray-300 overflow-auto sticky top-0 ${showMobilePreview ? "" : "hidden lg:block"}`}>
             <div className="p-4 sm:p-8">
               <div className="mb-4">
                 <h2 className="text-lg font-semibold text-white mb-1">
@@ -127,10 +108,7 @@ export default function Builder() {
                 </p>
               </div>
 
-              <div
-                className="bg-white shadow-2xl rounded-lg overflow-hidden"
-                style={{ aspectRatio: "8.5/11" }}
-              >
+              <div className="bg-white shadow-2xl rounded-lg overflow-hidden" style={{ aspectRatio: "8.5/11" }}>
                 <ResumeTemplate data={resumeData} />
               </div>
             </div>
