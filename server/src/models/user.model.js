@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema(
 
     avatar: {
       type: String,
-      default: ""
+      default: "",
     },
 
     avatarPublicId: {
@@ -83,19 +83,15 @@ const userSchema = new mongoose.Schema(
       default: "",
     },
 
-    followers: [{type: mongoose.Schema.Types.ObjectId, ref: "User"}],
-    following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User"}],
+    followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+
     followersCount: { type: Number, default: 0 },
     followingCount: { type: Number, default: 0 },
 
     isProfileComplete: {
       type: Boolean,
-      default: false,
-    },
-
-    signupStep: {
-      type: Number,
-      default: 1,
+      default: true,
     },
   },
   {
