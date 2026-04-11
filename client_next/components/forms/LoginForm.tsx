@@ -59,7 +59,7 @@ export default function LoginForm() {
             <div className="relative flex items-center justify-center mt-5">
                 <div className="absolute w-full h-px bg-white/20"></div>
                 <span className="relative px-3 text-md text-white/70 backdrop-blur-3xl">
-                    or
+                    
                 </span>
             </div>
             <p className="font-semibold text-white">Username</p>
