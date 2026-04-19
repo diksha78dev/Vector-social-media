@@ -38,27 +38,26 @@ export default function ChatListPage() {
                 })
             );
 
-            setConversations(results.filter(Boolean));
+            const validConvos = results.filter(Boolean);
 
-            // Fetch unread counts for all conversations in parallel
-            const nonEmptyConversations = results.filter(Boolean);
+            setConversations(validConvos);
+
             const unreadCountEntries = await Promise.all(
-                nonEmptyConversations.map(async (convo: any) => {
+                validConvos.map(async (convo: any) => {
                     try {
                         const { data } = await axios.get(
                             `${BACKEND_URL}/api/messages/${convo._id}/unread-count`,
                             { withCredentials: true }
                         );
                         return [convo._id, data.unreadCount] as const;
-                    } catch (error) {
+                    } catch {
                         return [convo._id, 0] as const;
                     }
                 })
             );
+
             const counts = Object.fromEntries(unreadCountEntries) as Record<string, number>;
             setUnreadCounts(counts);
-            const validConvos = results.filter(Boolean);
-            setConversations(validConvos);
             setFilteredConversations(validConvos);
         };
 
@@ -172,6 +171,14 @@ export default function ChatListPage() {
                                     <p className="text-sm text-gray-400">
                                         @{otherUser?.username}
                                     </p>
+                                </div>
+
+                                <div className="w-full">
+                                    {unreadCounts[convo._id] > 0 && (
+                                    <div className="ml-auto w-6 mr-2 bg-red-500 text-white rounded-full h-6 flex items-center justify-center text-xs font-bold">
+                                        {unreadCounts[convo._id]}
+                                    </div>
+                                )}
                                 </div>
 
                                 <ArrowRight className="ml-auto opacity-70" />
